@@ -5,13 +5,31 @@ from django.db.models import F, Q, CheckConstraint, UniqueConstraint
 User = get_user_model()
 
 
+class Group(models.Model):
+    title = models.CharField(max_length=200)
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+
 class Post(models.Model):
     text = models.TextField()
     pub_date = models.DateTimeField('Дата публикации', auto_now_add=True)
     author = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='posts')
+        User, on_delete=models.CASCADE, related_name='posts'
+    )
     image = models.ImageField(
-        upload_to='posts/', null=True, blank=True)
+        upload_to='posts/', null=True, blank=True
+    )
+    group = models.ForeignKey(
+        Group,
+        on_delete=models.SET_NULL,
+        related_name='posts',
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return self.text
@@ -32,17 +50,17 @@ class Follow(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='follower',
-        verbose_name='Подписчик',
+        verbose_name='Подписчик'
     )
-    author = models.ForeignKey(
+    following = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name='following',
-        verbose_name='Автор',
+        verbose_name='Автор'
     )
 
     class Meta:
         constraints = [
-            CheckConstraint(name='not_same', check=~Q(user=F('author'))),
-            UniqueConstraint(fields=['user', 'author'], name='unique_pair'),
+            CheckConstraint(name='not_same', check=~Q(user=F('following'))),
+            UniqueConstraint(fields=['user', 'following'], name='unique_pair'),
         ]
