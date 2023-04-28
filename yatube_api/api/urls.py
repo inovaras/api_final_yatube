@@ -1,5 +1,4 @@
 from django.urls import include, path
-from rest_framework.authtoken import views
 from rest_framework.routers import DefaultRouter
 
 from .views import CommentViewSet, GroupViewSet, FollowViewSet, PostViewSet
@@ -8,7 +7,9 @@ from .views import CommentViewSet, GroupViewSet, FollowViewSet, PostViewSet
 router = DefaultRouter()
 router.register('posts', PostViewSet, basename='post')
 router.register('groups', GroupViewSet, basename='group')
-router.register(r'posts/(?P<post_id>\d+)/comments', CommentViewSet, basename='comment')
+router.register(
+    r'posts/(?P<post_id>\d+)/comments', CommentViewSet, basename='comment'
+)
 router.register('follow', FollowViewSet, basename='follow')
 
 

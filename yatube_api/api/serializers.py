@@ -26,6 +26,7 @@ class GroupSerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     author = SlugRelatedField(slug_field='username', read_only=True)
     image = Base64ImageField(required=False, allow_null=True)
+
     class Meta:
         fields = '__all__'
         model = Post
@@ -46,7 +47,7 @@ class FollowSerializer(serializers.ModelSerializer):
     user = serializers.SlugRelatedField(
         slug_field='username',
         read_only=True,
-        default=serializers.CurrentUserDefault()
+        default=serializers.CurrentUserDefault(),
     )
 
     following = serializers.SlugRelatedField(
@@ -59,12 +60,13 @@ class FollowSerializer(serializers.ModelSerializer):
 
         validators = [
             UniqueTogetherValidator(
-                queryset=Follow.objects.all(),
-                fields=('user', 'following')
+                queryset=Follow.objects.all(), fields=('user', 'following')
             )
         ]
 
     def validate_following(self, value):
         if value == self.context['request'].user:
-            raise serializers.ValidationError('Нельзя подписаться на самого себя!')
+            raise serializers.ValidationError(
+                'Нельзя подписаться на самого себя!'
+            )
         return value
