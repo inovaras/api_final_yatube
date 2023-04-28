@@ -5,30 +5,31 @@ Yatube - это социальная сеть, в которой блогеры 
 - Получать, создавать, обновлять и удалять публикации;
 - Подписываться на любимых авторов;
 - Получать и добавлять, обновлять, удалять комментарии к публикациям.
+- 
 ### Как запустить проект:
 
 Клонировать репозиторий и перейти в него в командной строке:
 
 ```
-git clone https://github.com/yandex-praktikum/kittygram2plus.git
+git clone git@github.com:inovaras/api_final_yatube.git
 ```
 
 ```
-cd kittygram2plus
+cd api_yatube
 ```
 
 Cоздать и активировать виртуальное окружение:
 
 ```
-python3 -m venv env
+python -m venv env
 ```
 
 ```
-source env/bin/activate
+source venv/Scripts/activate
 ```
 
 ```
-python3 -m pip install --upgrade pip
+python -m pip install --upgrade pip
 ```
 
 Установить зависимости из файла requirements.txt:
@@ -40,11 +41,11 @@ pip install -r requirements.txt
 Выполнить миграции:
 
 ```
-python3 manage.py migrate
+python manage.py migrate
 ```
 
 Запустить проект:
 
 ```
-python3 manage.py runserver
+python manage.py runserver
 ```
