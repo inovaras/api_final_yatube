@@ -7,8 +7,8 @@ from .permissions import AuthorOrReadOnly
 from posts.models import Group, Post
 from .serializers import (
     CommentSerializer,
-    GroupSerializer,
     FollowSerializer,
+    GroupSerializer,
     PostSerializer,
 )
 
